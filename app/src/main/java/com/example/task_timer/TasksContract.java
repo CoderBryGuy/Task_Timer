@@ -3,6 +3,9 @@ package com.example.task_timer;
 import android.provider.BaseColumns;
 
 public class TasksContract {
+
+    public static final String TABLE_NAME = "Tasks";
+
     //Task fields
     public static class Columns{
         public static final String _ID = BaseColumns._ID;
