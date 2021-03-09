@@ -4,7 +4,10 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -39,11 +42,11 @@ public class AppProvider extends ContentProvider {
         //e.g. content://com.example.task_timer.provider/Tasks/8
         matcher.addURI(CONTENT_AUTHORITY, TasksContract.TABLE_NAME + "/#", TASKS_ID);
 
-        matcher.addURI(CONTENT_AUTHORITY, TimingsContract.TABLE_NAME, TIMINGS);
-        matcher.addURI(CONTENT_AUTHORITY, TimingsContract.TABLE_NAME + "/#" , TIMINGS_ID);
-
-        matcher.addURI(CONTENT_AUTHORITY, DurationsContract.TABLE_NAME, TASK_DURATIONS);
-        matcher.addURI(CONTENT_AUTHORITY, DurationsContract.TABLE_NAME +"/#", TASK_DURATIONS);
+//        matcher.addURI(CONTENT_AUTHORITY, TimingsContract.TABLE_NAME, TIMINGS);
+//        matcher.addURI(CONTENT_AUTHORITY, TimingsContract.TABLE_NAME + "/#" , TIMINGS_ID);
+//
+//        matcher.addURI(CONTENT_AUTHORITY, DurationsContract.TABLE_NAME, TASK_DURATIONS);
+//        matcher.addURI(CONTENT_AUTHORITY, DurationsContract.TABLE_NAME +"/#", TASK_DURATIONS);
 
         return matcher;
     }
@@ -56,15 +59,86 @@ public class AppProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
-        return null;
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        Log.d(TAG, "query: called with URI" + uri);
+        final int match = sUriMatcher.match(uri);
+        Log.d(TAG, "query: match is " + match);
+
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+
+        switch (match){
+            case TASKS:
+                queryBuilder.setTables(TasksContract.TABLE_NAME);
+                break;
+
+
+            case TASKS_ID:
+                  queryBuilder.setTables(TasksContract.TABLE_NAME);
+                  long taskId = TasksContract.getTaskId(uri);
+                  queryBuilder.appendWhere(TasksContract.Columns._ID + "=" + taskId);
+                  break;
+
+
+//            case TIMINGS:
+//                queryBuilder.setTables(TimingsContract.TABLE_NAME);
+//                break;
+
+
+//            case TASKS_ID:
+//                queryBuilder.setTables(TimingsContract.TABLE_NAME);
+//                long timingId = TimingsContract.getTimingId(uri);
+//                queryBuilder.appendWhere(TimingsContract.Columns._ID + "=" + timingId);
+//                break;
+
+
+//            case TASK_DURATIONS:
+//                queryBuilder.setTables(DurationsContract.TABLE_NAME);
+//                break;
+
+
+//            case TASK_DURATIONS:
+//                queryBuilder.setTables(DurationsContract.TABLE_NAME);
+//                long durationId = DurationsContract.getTimingId(uri);
+//                queryBuilder.appendWhere(DurationsContract.Columns._ID + "=" + durationId);
+//                break;
+
+
+//            default:
+//                throw new IllegalStateException("Unknown URI: " +uri);
+        }
+
+        SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
     }
 
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch(match){
+            case TASKS:
+                return TasksContract.CONTENT_TYPE;
+
+           case TASKS_ID:
+                return TasksContract.CONTENT_ITEM_TYPE;
+
+//            case TIMINGS:
+//                return TimingsContract.Timings.CONTENT_TYPE;
+//
+//            case TASKS_ID:
+//                return TimingsContract.Timings.CONTENT_ITEM_TYPE;
+//
+//            case TASK_DURATIONS:
+//                return DurationsContract.TaskDurations.CONTENT_TYPE;
+//
+//            case TASK_DURATIONS:
+//                return DurationsContract.TaskDurations.CONTENT_ITEM_TYPE;
+
+            default:
+                throw new IllegalStateException("Unknown URI: " +uri);
+        }
     }
+
 
     @Nullable
     @Override

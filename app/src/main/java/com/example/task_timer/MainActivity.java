@@ -1,13 +1,16 @@
 package com.example.task_timer;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,8 +19,27 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        AppDatabase appDatabase = AppDatabase.getInstance(this);
-        final SQLiteDatabase db = appDatabase.getReadableDatabase();
+    String[] projection = {TasksContract.Columns.TASKS_NAME, TasksContract.Columns.TASKS_DESCRIPTION};
+        ContentResolver contentResolver = getContentResolver();
+        Cursor cursor = contentResolver.query(TasksContract.buildTaskUri(2),
+                projection,
+                null,
+                null,
+                TasksContract.Columns.TASKS_SORTORDER);
+
+        if(cursor != null){
+            Log.d(TAG, "onCreate: number of rows: " + cursor.getCount());
+            while(cursor.moveToNext()){
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
+                    Log.d(TAG, "onCreate: " + cursor.getColumnName(i) + ": " + cursor.getString(i));
+                }
+                Log.d(TAG, "onCreate: =====================================================");
+            }
+            cursor.close();
+        }
+
+//        AppDatabase appDatabase = AppDatabase.getInstance(this);
+//        final SQLiteDatabase db = appDatabase.getReadableDatabase();
     }
 
     @Override
