@@ -2,8 +2,15 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.example.task_timer.MainActivity">
+    <item android:title="@string/menutitle_addTask" android:orderInCategory="100" android:id="@+id/menu_addTask"
+          android:icon="@android:drawable/ic_menu_add" app:showAsAction="ifRoom"/>
+    <item android:title="@string/showDurations" android:orderInCategory="101" android:id="@+id/menumain_showDurations"
+          android:icon="@android:drawable/ic_menu_view" app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
-          android:orderInCategory="100"
+          android:orderInCategory="102"
           app:showAsAction="never"/>
+    <item android:title="Item" android:orderInCategory="103"/>
+    <item android:title="Item" android:orderInCategory="103"/>
+    <item android:title="Item" android:orderInCategory="104"/>
 </menu>
