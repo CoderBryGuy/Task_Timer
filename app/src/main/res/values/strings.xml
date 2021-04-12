@@ -13,4 +13,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menutitle_addTask">Add Task</string>
     <string name="showDurations">Durations Report</string>
+    <string name="menuMain_showAbout">About TaskTime</string>
+    <string name="menuMain_generate">Generate Data</string>
+    <string name="no_task_selected">No Task Selected</string>
+    <string name="task_timer_application">Task Timer Application</string>
+    <string name="edit_button_description">Button to edit task details</string>
+    <string name="delete_button_description">Button to delete task</string>
 </resources>

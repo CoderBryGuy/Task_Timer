@@ -6,11 +6,13 @@
           android:icon="@android:drawable/ic_menu_add" app:showAsAction="ifRoom"/>
     <item android:title="@string/showDurations" android:orderInCategory="101" android:id="@+id/menumain_showDurations"
           android:icon="@android:drawable/ic_menu_view" app:showAsAction="ifRoom"/>
-    <item android:id="@+id/action_settings"
+    <item android:id="@+id/menuMain_settings"
           android:title="@string/action_settings"
           android:orderInCategory="102"
           app:showAsAction="never"/>
-    <item android:title="Item" android:orderInCategory="103"/>
-    <item android:title="Item" android:orderInCategory="103"/>
-    <item android:title="Item" android:orderInCategory="104"/>
+    <item android:title="@string/menuMain_showAbout" android:orderInCategory="103"
+          android:id="@+id/menuMain_showAbout" android:icon="@android:drawable/ic_menu_info_details"
+          app:showAsAction="ifRoom"/>
+    <item android:orderInCategory="103" android:id="@+id/menuMain_generate" android:title="@string/menuMain_generate"
+          android:visible="false"/>
 </menu>

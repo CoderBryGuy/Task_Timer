@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
 //        int count = contentResolver.delete(TasksContract.buildTaskUri(3), null, null);
 
-        String selection = TasksContract.Columns.TASKS_DESCRIPTION + " = ?";
-        String[] args = { "For deletion"};
-        int count = contentResolver.delete(TasksContract.CONTENT_URI, selection, args);
-        Log.d(TAG, "onCreate: " + count + " records(s) deleted");
+//        String selection = TasksContract.Columns.TASKS_DESCRIPTION + " = ?";
+//        String[] args = { "For deletion"};
+//        int count = contentResolver.delete(TasksContract.CONTENT_URI, selection, args);
+//        Log.d(TAG, "onCreate: " + count + " records(s) deleted");
 
 //        Cursor cursor = contentResolver.query(TasksContract.buildTaskUri(2),
         Cursor cursor = contentResolver.query(TasksContract.CONTENT_URI,
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menuMain_settings) {
             return true;
         }
 

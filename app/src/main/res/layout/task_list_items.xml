@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content">
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="37dp" android:id="@+id/tli_name"
+            tools:text="@string/task_timer_application" android:textSize="22sp"
+            android:textStyle="bold" android:textColor="?android:attr/textColorPrimary"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tli_edit" android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp" android:layout_marginEnd="8dp"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/tli_description"
+            android:textStyle="bold"
+            android:textColor="@android:color/secondary_text_dark"
+            app:layout_constraintTop_toBottomOf="@+id/tli_name" app:layout_constraintStart_toStartOf="parent"
+            tools:text="Write course notes and videos for the TaskTimer Application"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/tli_edit"/>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_menu_edit"
+            android:id="@+id/tli_edit"
+            android:contentDescription="@string/edit_button_description"
+            app:layout_constraintTop_toTopOf="@+id/tli_delete" app:layout_constraintEnd_toStartOf="@+id/tli_delete"
+            android:layout_marginEnd="8dp"/>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_menu_delete"
+            android:id="@+id/tli_delete"
+            android:contentDescription="@string/delete_button_description" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp" android:layout_marginEnd="8dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
