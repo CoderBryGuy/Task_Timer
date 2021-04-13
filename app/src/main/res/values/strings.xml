@@ -19,4 +19,12 @@
     <string name="task_timer_application">Task Timer Application</string>
     <string name="edit_button_description">Button to edit task details</string>
     <string name="delete_button_description">Button to delete task</string>
+    <string name="description">description</string>
+    <string name="addedit_description">description</string>
+    <string name="addedit_name">name</string>
+    <string name="addedit_sortorder">sort order</string>
+    <string name="addedit_name_hint">Task Name: required</string>
+    <string name="addedit_description_hint">Task Description (optional)</string>
+    <string name="addedit_sort_hint">Orders: sorts low to high</string>
+    <string name="addedit_save_text">SAVE</string>
 </resources>
