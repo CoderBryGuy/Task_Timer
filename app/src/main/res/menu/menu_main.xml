@@ -2,7 +2,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.example.task_timer.MainActivity">
-    <item android:title="@string/menutitle_addTask" android:orderInCategory="100" android:id="@+id/menu_addTask"
+    <item android:title="@string/menutitle_addTask" android:orderInCategory="100" android:id="@+id/menumain_addTask"
           android:icon="@android:drawable/ic_menu_add" app:showAsAction="ifRoom"/>
     <item android:title="@string/showDurations" android:orderInCategory="101" android:id="@+id/menumain_showDurations"
           android:icon="@android:drawable/ic_menu_view" app:showAsAction="ifRoom"/>

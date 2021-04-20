@@ -27,4 +27,5 @@
     <string name="addedit_description_hint">Task Description (optional)</string>
     <string name="addedit_sort_hint">Orders: sorts low to high</string>
     <string name="addedit_save_text">SAVE</string>
+    <string name="title_activity_add_edit">AddEditActivity</string>
 </resources>
