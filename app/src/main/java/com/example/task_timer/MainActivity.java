@@ -1,6 +1,8 @@
 package com.example.task_timer;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean mTwoPane = false;
 
     private static final String ADD_EDIT_FRAGMENT = "AddEditFragment";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.menumain_addTask:
+                taskEditRequest(null);
                 break;
             case R.id.menumain_showDurations:
                 break;
@@ -54,5 +56,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void taskEditRequest(Task task){
+        Log.d(TAG, "taskEditRequest: starts");
+        if(mTwoPane){
+            Log.d(TAG, "taskEditRequest: in two pane mode (tablet)");
+        }else{
+            Log.d(TAG, "taskEditRequest: in single-pane mode (phone)");
+            Intent detailedIntent = new Intent(this, AddEditActivity.class);
+            if(task != null){
+                //in single-pane mode, start the detail activity for the selected id
+                detailedIntent.putExtra(Task.class.getSimpleName(), task);
+                startActivity(detailedIntent);
+            }else{
+                //add a new task
+                startActivity(detailedIntent);
+            }
+        }
     }
 }

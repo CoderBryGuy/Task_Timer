@@ -2,10 +2,12 @@ package com.example.task_timer;
 
 import android.os.Bundle;
 import android.util.Log;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,15 +16,15 @@ import android.view.ViewGroup;
  */
 public class AddEditActivityFragment extends Fragment {
     private static final String TAG = "AddEditActivityFragment";
+    public enum FragmentEditMode{EDIT, ADD}
+    private FragmentEditMode mEditMode;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private EditText nNameTextView;
+    private EditText mDescriptionTextView;
+    private EditText mSortOrderTextView;
+    private Button mSaveButton;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private EditText mNameTextView;
 
     public AddEditActivityFragment() {
         // Required empty public constructor
@@ -34,6 +36,12 @@ public class AddEditActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: start");
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_edit, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_edit, container, false);
+        mNameTextView = (EditText) view.findViewById(R.id.addedit_name);
+        mDescriptionTextView = (EditText) view.findViewById(R.id.addedit_description);
+        mSortOrderTextView = (EditText) view.findViewById(R.id.addedit_sortorder);
+        mSaveButton = (Button) view.findViewById(R.id.addedit_save);
+
+        return view;
     }
 }
