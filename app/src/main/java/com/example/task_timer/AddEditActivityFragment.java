@@ -80,14 +80,40 @@ public class AddEditActivityFragment extends Fragment {
 
                 ContentResolver contentResolver = getActivity().getContentResolver();
                 ContentValues values = new ContentValues();
+
                 switch(mEditMode){
+
                     case EDIT:
                         if(!mNameTextView.getText().toString().equals(task.getName())){
                             values.put(TasksContract.Columns.TASKS_NAME, mNameTextView.getText().toString());
+                            if(!mDescriptionTextView.getText().toString().equals(task.getDescription())){
+                                values.put(TasksContract.Columns.TASKS_DESCRIPTION, mDescriptionTextView.getText().toString());
+                            }
                         }
+                        if(so != task.getSortOrder()){
+                            values.put(TasksContract.Columns.TASKS_SORTORDER, so);
+                        }
+                        if(values.size() != 0){
+                            Log.d(TAG, "onClick: updating task");
+                            contentResolver.update(TasksContract.buildTaskUri(task.getId()), values, null, null);
+                        }
+                        break;
+
+                    case ADD:
+                        if(mNameTextView.length() > 0){
+                            Log.d(TAG, "onClick: adding new task");
+                            values.put(TasksContract.Columns.TASKS_NAME, mNameTextView.getText().toString());
+                            values.put(TasksContract.Columns.TASKS_DESCRIPTION, mDescriptionTextView.getText().toString());
+                            values.put(TasksContract.Columns.TASKS_SORTORDER, so);
+                            contentResolver.insert(TasksContract.CONTENT_URI, values);
+                        }
+                        break;
                 }
+
+                Log.d(TAG, "onClick: done editing");
             }
         });
+        Log.d(TAG, "onCreateView: Exiting...");
 
         return view;
     }

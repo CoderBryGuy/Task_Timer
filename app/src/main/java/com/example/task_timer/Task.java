@@ -17,7 +17,7 @@ class Task implements Serializable {
         mSortOrder = sortOrder;
     }
 
-    public long getM_Id() {
+    public long getId() {
         return m_Id;
     }
 
