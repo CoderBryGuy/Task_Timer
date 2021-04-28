@@ -13,6 +13,8 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import java.security.InvalidParameterException;
+
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "MainActivityFragment";
 
@@ -32,10 +34,27 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        if(id == LOADER_ID){
-            return new CursorLoader();
-        }
-        return null;
+        Log.d(TAG, "onCreateLoader: start with id " + id);
+
+        //LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
+
+        String[] projection = {TasksContract.Columns._ID, TasksContract.Columns.TASKS_NAME,
+                                TasksContract.Columns.TASKS_DESCRIPTION, TasksContract.Columns.TASKS_SORTORDER};
+
+        String sortOrder = TasksContract.Columns.TASKS_SORTORDER + "," + TasksContract.TABLE_NAME;
+
+       switch(id) {
+           case LOADER_ID:
+               return new CursorLoader(getActivity(),
+                       TasksContract.CONTENT_URI,
+                       projection,
+                       null,
+                       null,
+                       sortOrder);
+           default:
+               throw new InvalidParameterException(TAG + ".onCreateLoader called with invalid loader id" + id);
+       }
+
     }
 
     @Override
