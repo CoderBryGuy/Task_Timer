@@ -25,6 +25,15 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated: starts");
+        super.onActivityCreated(savedInstanceState);
+
+        //getLoaderManager().initLoader(LOADER_ID, null, this);
+        LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: starts");
@@ -36,7 +45,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         Log.d(TAG, "onCreateLoader: start with id " + id);
 
-        //LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
+
 
         String[] projection = {TasksContract.Columns._ID, TasksContract.Columns.TASKS_NAME,
                                 TasksContract.Columns.TASKS_DESCRIPTION, TasksContract.Columns.TASKS_SORTORDER};
@@ -59,11 +68,22 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-
+        Log.d(TAG, "onLoadFinished: on load finished");
+        int count = -1;
+        if(data != null){
+            while(data.moveToNext()){
+                for (int i = 0; i < data.getColumnCount(); i++) {
+                    Log.d(TAG, "onLoadFinished: " + data.getColumnName(i) + ": " + data.getString(i));
+                }
+                Log.d(TAG, "onLoadFinished: ========================================");
+            }
+            count = data.getCount();
+        }
+        Log.d(TAG, "onLoadFinished: count is " + count);
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
+        Log.d(TAG, "onLoaderReset: called");
     }
 }
