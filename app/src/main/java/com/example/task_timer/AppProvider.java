@@ -84,7 +84,7 @@ public class AppProvider extends ContentProvider {
 //                break;
 
 
-//            case TASKS_ID:
+//            case TIMINGS_ID:
 //                queryBuilder.setTables(TimingsContract.TABLE_NAME);
 //                long timingId = TimingsContract.getTimingId(uri);
 //                queryBuilder.appendWhere(TimingsContract.Columns._ID + "=" + timingId);
@@ -103,12 +103,15 @@ public class AppProvider extends ContentProvider {
 //                break;
 
 
-//            default:
-//                throw new IllegalStateException("Unknown URI: " +uri);
+            default:
+                throw new IllegalStateException("Unknown URI: " +uri);
         }
 
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-        return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        Log.d(TAG, "query: rows in returned cursor = " + cursor.getCount());//TODO remove this line
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
     }
 
     @Nullable
@@ -175,6 +178,12 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalStateException("Unknown uri: " + uri);
         }
+
+        if(recordId >= 0){
+            Log.d(TAG, "insert: setting notifyChanged with " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
         Log.d(TAG, "insert: exiting insert return " + returnUri);
         return returnUri;
     }
@@ -223,6 +232,14 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
+
+        if(count > 0){
+            Log.d(TAG, "delete: seeting notifyChange with " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        }else{
+            Log.d(TAG, "delete: nothing delete");
+        }
+
         Log.d(TAG, "update: exiting update, returning " + count);
         return count;
     }
@@ -271,6 +288,14 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
+
+        if(count > 0){
+            Log.d(TAG, "update: notifyChanged with " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        }else{
+            Log.d(TAG, "update: nothing was updated");
+        }
+
         Log.d(TAG, "update: exiting update, returning " + count);
         return count;
     }

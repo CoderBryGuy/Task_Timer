@@ -16,10 +16,12 @@ public class AddEditActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.fragment_container_view, AddEditActivityFragment.class, null)
+                    .add(R.id.addedit_fragment_container_view, AddEditActivityFragment.class, null)
                     .commit();
         }
     }

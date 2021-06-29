@@ -13,10 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 class CursorRecyclerViewAdapter extends RecyclerView.Adapter<CursorRecyclerViewAdapter.TaskViewHolder> {
     private static final String TAG = "CursorRecyclerViewAdapt";
     private Cursor mCursor;
+    private OnTaskClickListener mListener;
 
-    public CursorRecyclerViewAdapter(Cursor cursor) {
+    interface OnTaskClickListener{
+        void onEditClickListener(Task task);
+        void onDeleteClickListener(Task task);
+    }
+
+    public CursorRecyclerViewAdapter(Cursor cursor, OnTaskClickListener listener) {
         Log.d(TAG, "CursorRecyclerViewAdapter: Constructor called");
         mCursor = cursor;
+        mListener = listener;
     }
 
     @NonNull
@@ -31,28 +38,87 @@ class CursorRecyclerViewAdapter extends RecyclerView.Adapter<CursorRecyclerViewA
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
             if((mCursor ==  null) ||(mCursor.getCount() == 0)){
                 Log.d(TAG, "onBindViewHolder: providing instructions");
-                holder.name.setText("Instructions");
-                holder.description.setText("Use the add button (+) in the toolbar above to create new tasks." +
-                        "\n\nTasks with lower sort orders will be placed higher up in the list." +
-                        "Tasks with the same sort order will be sorted alphabetically."+
-                        "\n\nTapping a task will start the timer for that task (and will stop the timer for any previous task that was being timed"+
-                        "\n\nEeach task has Edit and Delete buttons if you want to change the details and remove the task.");
+                holder.name.setText(R.string.instructions_heading);
+                holder.description.setText(R.string.instructions);
                 holder.editButton.setVisibility(View.GONE); //TODO add onClick Listener
                 holder.deleteButton.setVisibility(View.GONE); //TODO add onClick Listener
             }else{
-                if(!mCursor.moveToPosition(i)){
-                    throw new IllegalStateException("Couldn't move cursor to position " + i);
+                if(!mCursor.moveToPosition(position)){
+                    throw new IllegalStateException("Couldn't move cursor to position " + position);
                 }
-                holder.name.setText(mCursor.getString(mCursor.getColumnIndex(TasksContract.Columns.TASKS_NAME)));
-                holder.description.setText(mCursor.getString(mCursor.getColumnIndex(TasksContract.Columns.TASKS_DESCRIPTION)));
+
+                final Task task = new Task(mCursor.getLong(mCursor.getColumnIndex(TasksContract.Columns._ID)),
+                        mCursor.getString(mCursor.getColumnIndex(TasksContract.Columns.TASKS_NAME)),
+                        mCursor.getString(mCursor.getColumnIndex(TasksContract.Columns.TASKS_DESCRIPTION)),
+                        mCursor.getInt(mCursor.getColumnIndex(TasksContract.Columns.TASKS_SORTORDER)));
+
+                holder.name.setText(task.getName());
+                holder.description.setText(task.getDescription());
                 holder.editButton.setVisibility(View.VISIBLE);
                 holder.deleteButton.setVisibility(View.VISIBLE);
+
+//                View.OnClickListener buttonListener = new View.OnClickListener(){
+
+                View.OnClickListener buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "onClick: starts");
+                        switch(v.getId()){
+                            //start here
+                        }
+                    }
+                };
+
+                class Listener implements View.OnClickListener{
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "onClick: starts");
+                        Log.d(TAG, "onClick: button with id " + v.getId() + " clicked");
+                        Log.d(TAG, "onClick: name is " + task.getName());
+                    }
+                };
+
+                Listener buttonListener = new Listener();
+
+                holder.editButton.setOnClickListener(buttonListener);
+                holder.deleteButton.setOnClickListener(buttonListener);
             }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        Log.d(TAG, "getItemCount: starts");
+        if((mCursor == null) || (mCursor.getCount()) == 0){
+            return 1; // fib, because we populate a single viewHolder with instructions
+        }else{
+            return mCursor.getCount();
+        }
+
+    }
+
+    /**
+     * Swap in new Cursor, returning the old Cursor
+     * The returned old Cursor is <em>not</em> closed.
+     * @param newCursor
+     * @return Returns the previously set Cursor, or null if there isn't one.
+     * If the given new Cursor is the same instance as the previously set
+     * Cursor, null is also returned
+     */
+    Cursor swapCursor(Cursor newCursor){
+        if(newCursor == mCursor){
+            return null;
+        }
+
+        final Cursor oldCursor = mCursor;
+        mCursor = newCursor;
+        if(newCursor != null){
+            //notify the observers about the new cursor
+            notifyDataSetChanged();
+        }else{
+            //notify the observers about the lack of a data set
+            notifyItemRangeRemoved(0, getItemCount());
+        }
+        return oldCursor;
     }
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {

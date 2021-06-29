@@ -39,6 +39,8 @@ public class AddEditActivityFragment extends Fragment {
         Log.d(TAG, "onCreateView: start");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_edit, container, false);
+
+
         mNameTextView = (EditText) view.findViewById(R.id.addedit_name);
         mDescriptionTextView = (EditText) view.findViewById(R.id.addedit_description);
         mSortOrderTextView = (EditText) view.findViewById(R.id.addedit_sortorder);
@@ -62,7 +64,7 @@ public class AddEditActivityFragment extends Fragment {
             }
         } else {
             task = null;
-            Log.d(TAG, "onCreateView: No arugments, adding a new record");
+            Log.d(TAG, "onCreateView: No arguments, adding a new record");
             mEditMode = FragmentEditMode.ADD;
         }
 

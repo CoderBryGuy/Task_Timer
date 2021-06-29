@@ -24,6 +24,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.main_fragment_container_view, MainActivityFragment.class, null)
+                    .commit();
+        }
+
     }
 
     @Override
