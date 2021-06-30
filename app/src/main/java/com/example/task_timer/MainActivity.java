@@ -2,13 +2,14 @@ package com.example.task_timer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.GetChars;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CursorRecyclerViewAdapter.OnTaskClickListener {
     private static final String TAG = "MainActivity";
 
     //whether the activity is in 2-pane mode
@@ -81,5 +82,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(detailedIntent);
             }
         }
+    }
+
+    @Override
+    public void onEditClick(Task task) {
+        taskEditRequest(task);
+    }
+
+    @Override
+    public void onDeleteClick(Task task) {
+        getContentResolver().delete(TasksContract.buildTaskUri(task.getId()))
     }
 }
