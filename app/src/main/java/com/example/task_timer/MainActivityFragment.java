@@ -59,7 +59,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         String[] projection = {TasksContract.Columns._ID, TasksContract.Columns.TASKS_NAME,
                                 TasksContract.Columns.TASKS_DESCRIPTION, TasksContract.Columns.TASKS_SORTORDER};
 
-        String sortOrder = TasksContract.Columns.TASKS_SORTORDER + "," + TasksContract.TABLE_NAME;
+        String sortOrder = TasksContract.Columns.TASKS_SORTORDER + "," + TasksContract.Columns.TASKS_NAME;
 
        switch(id) {
            case LOADER_ID:

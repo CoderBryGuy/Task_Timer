@@ -2,7 +2,6 @@ package com.example.task_timer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.GetChars;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -91,6 +90,6 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
 
     @Override
     public void onDeleteClick(Task task) {
-        getContentResolver().delete(TasksContract.buildTaskUri(task.getId()))
+        getContentResolver().delete(TasksContract.buildTaskUri(task.getId()), null, null);
     }
 }
