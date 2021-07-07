@@ -31,6 +31,12 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
                     .commit();
         }
 
+        if(findViewById(R.id.task_details_container) != null){
+            //the detail container view will be present only in the large-screen layouts (res/values-land and res-values-sw600dp)
+            //if this view is present, then the activity should be in two-pane mode
+            mTwoPane = true;
+        }
+
     }
 
     @Override
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
         Log.d(TAG, "taskEditRequest: starts");
         if(mTwoPane){
             Log.d(TAG, "taskEditRequest: in two pane mode (tablet)");
+
         }else{
             Log.d(TAG, "taskEditRequest: in single-pane mode (phone)");
             Intent detailedIntent = new Intent(this, AddEditActivity.class);
