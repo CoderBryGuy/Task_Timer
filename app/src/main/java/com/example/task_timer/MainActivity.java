@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity implements CursorRecyclerViewAdapter.OnTaskClickListener {
     private static final String TAG = "MainActivity";
@@ -75,7 +77,16 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
         Log.d(TAG, "taskEditRequest: starts");
         if(mTwoPane){
             Log.d(TAG, "taskEditRequest: in two pane mode (tablet)");
+            AddEditActivityFragment fragment = new AddEditActivityFragment();
 
+            Bundle arguments = new Bundle();
+            arguments.putSerializable(Task.class.getSimpleName(), task);
+            fragment.setArguments(arguments);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.task_details_container, fragment);
+            fragmentTransaction.commit();
         }else{
             Log.d(TAG, "taskEditRequest: in single-pane mode (phone)");
             Intent detailedIntent = new Intent(this, AddEditActivity.class);
