@@ -31,7 +31,8 @@
     </LinearLayout>
     <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_weight="1" android:id="@+id/task_details_container">
+            android:layout_height="match_parent" android:layout_weight="1" android:id="@+id/task_details_container"
+            android:background="@android:drawable/ic_menu_mapmode">
 
     </FrameLayout>
 

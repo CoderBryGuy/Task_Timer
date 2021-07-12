@@ -1,6 +1,7 @@
 package com.example.task_timer;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -33,11 +34,23 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
                     .commit();
         }
 
-        if(findViewById(R.id.task_details_container) != null){
-            //the detail container view will be present only in the large-screen layouts (res/values-land and res-values-sw600dp)
-            //if this view is present, then the activity should be in two-pane mode
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
             mTwoPane = true;
+        } else {
+            // In portrait
+            mTwoPane = false;
         }
+
+
+//        if(findViewById(R.id.task_details_container) != null){
+//            //the detail container view will be present only in the large-screen layouts (res/values-land and res-values-sw600dp)
+//            //if this view is present, then the activity should be in two-pane mode
+//            mTwoPane = true;
+//        }
+
+        Log.d(TAG, "onCreate: mTwoPane = " + mTwoPane);
 
     }
 
