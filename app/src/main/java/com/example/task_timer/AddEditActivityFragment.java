@@ -27,11 +27,22 @@ public class AddEditActivityFragment extends Fragment {
     private Button mSaveButton;
 
     private EditText mNameTextView;
+    private OnSaveListener mOnSaveListener;
 
-    public AddEditActivityFragment() {
-        // Required empty public constructor
+    interface OnSaveListener{
+       void onSaveClick();
+    }
+
+
+    public AddEditActivityFragment(OnSaveListener onSaveListener) {
+        this.mOnSaveListener = onSaveListener;
+
         Log.d(TAG, "AddEditActivityFragment: constructor called");
     }
+
+//    public AddEditActivityFragment() {
+//        // Required empty public constructor
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +57,8 @@ public class AddEditActivityFragment extends Fragment {
         mSortOrderTextView = (EditText) view.findViewById(R.id.addedit_sortorder);
         mSaveButton = (Button) view.findViewById(R.id.addedit_save);
 
-        Bundle arguments = getActivity().getIntent().getExtras();
+//        Bundle arguments = getActivity().getIntent().getExtras();
+        Bundle arguments = getArguments();
 
         final Task task;
         if(arguments != null){
@@ -113,6 +125,7 @@ public class AddEditActivityFragment extends Fragment {
                 }
 
                 Log.d(TAG, "onClick: done editing");
+                mOnSaveListener.onSaveClick();
             }
         });
         Log.d(TAG, "onCreateView: Exiting...");

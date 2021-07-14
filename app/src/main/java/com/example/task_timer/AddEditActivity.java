@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-public class AddEditActivity extends AppCompatActivity {
+public class AddEditActivity extends AppCompatActivity implements AddEditActivityFragment.OnSaveListener {
     private static final String TAG = "AddEditActivity";
+    private Task task = null;
+    AddEditActivityFragment mFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,13 +20,27 @@ public class AddEditActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mFragment = new AddEditActivityFragment(this);
+
+        Bundle arguments = getIntent().getExtras();
+        mFragment.setArguments(arguments);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.addedit_fragment_container_view, AddEditActivityFragment.class, null)
-                    .commit();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.addedit_fragment_container_view, mFragment);
+            fragmentTransaction.commit();
+
         }
+    }
+
+    @Override
+    public void onSaveClick() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(mFragment);
+        fragmentTransaction.commit();
     }
 }

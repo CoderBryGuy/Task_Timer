@@ -11,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity implements CursorRecyclerViewAdapter.OnTaskClickListener {
+public class MainActivity extends AppCompatActivity implements CursorRecyclerViewAdapter.OnTaskClickListener, AddEditActivityFragment.OnSaveListener {
     private static final String TAG = "MainActivity";
 
     //whether the activity is in 2-pane mode
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
     private boolean mTwoPane = false;
 
     private static final String ADD_EDIT_FRAGMENT = "AddEditFragment";
+    private AddEditActivityFragment mAddEditActivityFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,15 +91,15 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
         Log.d(TAG, "taskEditRequest: starts");
         if(mTwoPane){
             Log.d(TAG, "taskEditRequest: in two pane mode (tablet)");
-            AddEditActivityFragment fragment = new AddEditActivityFragment();
+            mAddEditActivityFragment = new AddEditActivityFragment(this);
 
             Bundle arguments = new Bundle();
             arguments.putSerializable(Task.class.getSimpleName(), task);
-            fragment.setArguments(arguments);
+            mAddEditActivityFragment.setArguments(arguments);
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.task_details_container, fragment);
+            fragmentTransaction.replace(R.id.task_details_container, mAddEditActivityFragment);
             fragmentTransaction.commit();
         }else{
             Log.d(TAG, "taskEditRequest: in single-pane mode (phone)");
@@ -122,5 +123,13 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
     @Override
     public void onDeleteClick(Task task) {
         getContentResolver().delete(TasksContract.buildTaskUri(task.getId()), null, null);
+    }
+
+    @Override
+    public void onSaveClick() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(mAddEditActivityFragment);
+        fragmentTransaction.commit();
     }
 }
