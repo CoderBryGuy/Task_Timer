@@ -1,7 +1,9 @@
 package com.example.task_timer;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -34,15 +37,40 @@ public class AddEditActivityFragment extends Fragment {
     }
 
 
-    public AddEditActivityFragment(OnSaveListener onSaveListener) {
-        this.mOnSaveListener = onSaveListener;
+//    public AddEditActivityFragment(OnSaveListener onSaveListener) {
+//        this.mOnSaveListener = onSaveListener;
+//
+//        Log.d(TAG, "AddEditActivityFragment: constructor called");
+//    }
 
+    public AddEditActivityFragment() {
+        // Required empty public constructor
         Log.d(TAG, "AddEditActivityFragment: constructor called");
     }
 
-//    public AddEditActivityFragment() {
-//        // Required empty public constructor
-//    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        Log.d(TAG, "onAttach: starts");
+        super.onAttach(context);
+
+        Activity activity = (Activity) context;
+        if(!(activity instanceof OnSaveListener)){
+            throw new ClassCastException(
+                    new StringBuilder()
+                    .append(activity.getClass().getSimpleName())
+                    .append(" must implement AddEditActivityFragment.OnSavedClicked interface")
+                    .toString());
+        }
+
+        mOnSaveListener = (OnSaveListener)activity;
+    }
+
+    @Override
+    public void onDetach() {
+        Log.d(TAG, "onDetach: ");
+        super.onDetach();
+        mOnSaveListener = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,7 +153,9 @@ public class AddEditActivityFragment extends Fragment {
                 }
 
                 Log.d(TAG, "onClick: done editing");
-                mOnSaveListener.onSaveClick();
+                if(mOnSaveListener != null) {
+                    mOnSaveListener.onSaveClick();
+                }
             }
         });
         Log.d(TAG, "onCreateView: Exiting...");

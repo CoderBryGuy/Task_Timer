@@ -1,5 +1,6 @@
-package com.example.task_timer;
+                                                                                                                                                                                                                         package com.example.task_timer;
 
+                                                                                                                                                                                                                         import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity implements CursorRecyclerViewAdapter.OnTaskClickListener, AddEditActivityFragment.OnSaveListener {
+public class MainActivity extends AppCompatActivity implements CursorRecyclerViewAdapter.OnTaskClickListener,
+        AddEditActivityFragment.OnSaveListener {
+
     private static final String TAG = "MainActivity";
 
     //whether the activity is in 2-pane mode
@@ -91,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements CursorRecyclerVie
         Log.d(TAG, "taskEditRequest: starts");
         if(mTwoPane){
             Log.d(TAG, "taskEditRequest: in two pane mode (tablet)");
-            mAddEditActivityFragment = new AddEditActivityFragment(this);
+            mAddEditActivityFragment = new AddEditActivityFragment();
+            mAddEditActivityFragment.onAttach((Context)this);
 
             Bundle arguments = new Bundle();
             arguments.putSerializable(Task.class.getSimpleName(), task);

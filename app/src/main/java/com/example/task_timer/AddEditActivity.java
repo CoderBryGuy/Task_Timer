@@ -1,5 +1,6 @@
 package com.example.task_timer;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +22,8 @@ public class AddEditActivity extends AppCompatActivity implements AddEditActivit
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mFragment = new AddEditActivityFragment(this);
+        mFragment = new AddEditActivityFragment();
+        mFragment.onAttach((Context)this);
 
         Bundle arguments = getIntent().getExtras();
         mFragment.setArguments(arguments);
@@ -38,9 +40,11 @@ public class AddEditActivity extends AppCompatActivity implements AddEditActivit
 
     @Override
     public void onSaveClick() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(mFragment);
-        fragmentTransaction.commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove(mFragment);
+//        fragmentTransaction.commit();
+
+        finish();
     }
 }

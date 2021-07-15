@@ -54,8 +54,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         Log.d(TAG, "onCreateLoader: start with id " + id);
 
-
-
         String[] projection = {TasksContract.Columns._ID, TasksContract.Columns.TASKS_NAME,
                                 TasksContract.Columns.TASKS_DESCRIPTION, TasksContract.Columns.TASKS_SORTORDER};
 
@@ -80,15 +78,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         Log.d(TAG, "onLoadFinished: on load finished");
         mAdapter.swapCursor(data);
         int count = mAdapter.getItemCount();
-        if(data != null){
-            while(data.moveToNext()){
-                for (int i = 0; i < data.getColumnCount(); i++) {
-                    Log.d(TAG, "onLoadFinished: " + data.getColumnName(i) + ": " + data.getString(i));
-                }
-                Log.d(TAG, "onLoadFinished: ========================================");
-            }
-            count = data.getCount();
-        }
+
+//        if(data != null){
+//            while(data.moveToNext()){
+//                for (int i = 0; i < data.getColumnCount(); i++) {
+//                    Log.d(TAG, "onLoadFinished: " + data.getColumnName(i) + ": " + data.getString(i));
+//                }
+//                Log.d(TAG, "onLoadFinished: ========================================");
+//            }
+//            count = data.getCount();
+//        }
+
         Log.d(TAG, "onLoadFinished: count is " + count);
     }
 
