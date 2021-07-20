@@ -35,4 +35,6 @@
         task that was being timed\n\nEach task has Edit and Delete buttons if you want to change the details and remove
         the task.
     </string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

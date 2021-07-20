@@ -1,9 +1,13 @@
 package com.example.task_timer;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class AppDialog extends DialogFragment {
@@ -48,5 +52,66 @@ public class AppDialog extends DialogFragment {
         //reset active callbacks interface, because we don't have an activity any longer.
         mDialogEvents = null;
 
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateDialog: starts");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final Bundle arguments = getArguments();
+        final int dialogId;
+        String messageString;
+        int positiveStringId;
+        int negativeStringId;
+
+        if(arguments != null){
+            dialogId = arguments.getInt(DIALOG_ID);
+            messageString = arguments.getString(DIALOG_MESSAGE);
+
+            if(dialogId == 0 || messageString == null){
+                throw new IllegalArgumentException("DIALOG_ID and/or DIALOG_MESSAGE not present in the bundle");
+            }
+
+            positiveStringId = arguments.getInt(DIALOG_POSITIVE_RID);
+            if(positiveStringId == 0){
+                positiveStringId = R.string.ok;
+            }
+            negativeStringId = arguments.getInt(DIALOG_NEGATIVE_RID);
+            if(negativeStringId == 0){
+                negativeStringId = R.string.cancel;
+            }
+        }else{
+            throw new IllegalArgumentException("Must pass DIALOG_ID and DIALOG_MESSAGE in the bundle");
+        }
+
+        builder.setMessage(messageString)
+                .setPositiveButton(positiveStringId, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //callback the positive result method
+                        mDialogEvents.onPositiveDialogResult(dialogId, arguments);
+                    }
+                })
+                .setNegativeButton(negativeStringId, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //callback negative result method
+                        mDialogEvents.onNegativeDialogResult(dialogId, arguments);
+                    }
+                });
+        return super.onCreateDialog(savedInstanceState);
+    }
+
+    @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+        Log.d(TAG, "onCancel: called");
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        Log.d(TAG, "onDismiss: called");
+        super.onDismiss(dialog);
     }
 }
