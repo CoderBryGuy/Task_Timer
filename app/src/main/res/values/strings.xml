@@ -37,4 +37,6 @@
     </string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="deldiag_postitive_caption">Delete</string>
+    <string name="deldiag_message">Deleting will also delete all timing data associated with task id %1$d: %2$s.</string>
 </resources>

@@ -91,22 +91,31 @@ public class AppDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //callback the positive result method
-                        mDialogEvents.onPositiveDialogResult(dialogId, arguments);
+                        if(mDialogEvents !=null) {
+                            mDialogEvents.onPositiveDialogResult(dialogId, arguments);
+                        }
                     }
                 })
                 .setNegativeButton(negativeStringId, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //callback negative result method
-                        mDialogEvents.onNegativeDialogResult(dialogId, arguments);
+                        if(mDialogEvents !=null) {
+                            mDialogEvents.onNegativeDialogResult(dialogId, arguments);
+                        }
                     }
                 });
-        return super.onCreateDialog(savedInstanceState);
+        return builder.create();
     }
 
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
         Log.d(TAG, "onCancel: called");
+        if(mDialogEvents != null){
+            int dialogId = getArguments().getInt(DIALOG_ID);
+            mDialogEvents.onDialogCancelled(dialogId);
+
+        }
     }
 
     @Override
