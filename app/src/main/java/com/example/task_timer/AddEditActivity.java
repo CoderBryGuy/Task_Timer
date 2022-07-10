@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 public class AddEditActivity extends AppCompatActivity implements AddEditActivityFragment.OnSaveListener {
     private static final String TAG = "AddEditActivity";
     private Task task = null;
-    AddEditActivityFragment mFragment = null;
+    AddEditActivityFragment mAddEditFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +22,18 @@ public class AddEditActivity extends AppCompatActivity implements AddEditActivit
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mFragment = new AddEditActivityFragment();
-        mFragment.onAttach((Context)this);
+
+        mAddEditFragment = new AddEditActivityFragment();
+        mAddEditFragment.onAttach((Context)this);
 
         Bundle arguments = getIntent().getExtras();
-        mFragment.setArguments(arguments);
+        mAddEditFragment.setArguments(arguments);
 
         if (savedInstanceState == null) {
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.addedit_fragment_container_view, mFragment);
+            fragmentTransaction.replace(R.id.addedit_activity_container_view, mAddEditFragment);
             fragmentTransaction.commit();
 
         }

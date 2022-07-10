@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:id="@+id/content_add_edit"
+              android:id="@+id/fragment_add_edit"
               android:paddingTop="?android:attr/actionBarSize">
 
 
